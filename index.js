@@ -15,11 +15,12 @@ Go code!
 const express = require("express");
 const server = express();
 projectRouter = require('./routers/projectRouter');
-
+actionRouter = require('./routers/actionRouter.js')
 
 server.use(express.json());
 
 server.use('/api/projects', projectRouter)
+server.use("/api/actions", actionRouter);
 
 server.get('/', (req, res) => {
     res.send("server is working for sprint challenge")

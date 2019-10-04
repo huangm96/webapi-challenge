@@ -21,6 +21,7 @@ module.exports = {
     return query.then(actions => {
       return actions.map(action => mappers.actionToBody(action));
     });
+    
   },
   insert: function(action) {
     return db('actions')

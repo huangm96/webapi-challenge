@@ -1,7 +1,7 @@
 const express = require("express");
 
 const projectModel = require("../data/helpers/projectModel.js");
-const actionModel = require('../routers/actionRouter.js')
+
 
 const router = express.Router();
 
@@ -38,8 +38,12 @@ router.post("/", validateProject,(req, res) => {
     projectModel
       .insert(req.body)
       .then(res.status(201).json(req.body))
-      .catch({
-        error: "There was an error while saving the project to the database"
+      .catch(() => {
+        res
+          .status(500)
+          .json({
+            error: "There was an error while saving the project to the database"
+          });
       });
   
 });
@@ -52,8 +56,10 @@ router.delete("/:id",  validateProjectId,(req, res) => {
         message: `The project with id: ${req.params.id} was removed `
       })
     )
-    .catch({
-      error: "The project could not be removed"
+    .catch(() => {
+      res.status(500).json({
+        error: "The project could not be removed"
+      });
     });
 });
 
@@ -66,8 +72,10 @@ router.put("/:id",validateProject,  validateProjectId,(req, res) => {
         newData: req.body
       })
     )
-    .catch({
-      error: "The project information could not be modified."
+    .catch(() => {
+      res.status(500).json({
+        error: "The project information could not be modified."
+      });
     });
 });
 
@@ -77,8 +85,10 @@ router.get('/:id/project-actions', validateProjectId, (req, res) => {
       .then(action => {
         res.send(action);
       })
-      .catch({
-        error: "The actions for this project could not be retrieved."
+      .catch(() => {
+        res.status(500).json({
+          error: "The actions for this project could not be retrieved."
+        });
       });
 })
 
@@ -95,19 +105,23 @@ function validateProject(req, res, next) {
 }
 
 function validateProjectId(req, res, next) {
-   projectModel.get(req.params.id).then(project => {
+   projectModel
+     .get(req.params.id)
+     .then(project => {
        if (!project) {
-           res.status(404).json({
-             error: "invalid project id"
-           });
+         res.status(404).json({
+           error: "invalid project id"
+         });
        } else {
-           next();
-        }
-   }).catch({
-       error: "The projects information could not be retrieved."
-    })
+         next();
+       }
+     })
+     .catch(() => {
+       res.status(500).json({
+         error: "The projects information could not be retrieved."
+       });
+     });
 }
-
 
 
 
