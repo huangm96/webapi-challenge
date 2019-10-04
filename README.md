@@ -26,13 +26,29 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+  Route and middleware
+
 - [ ] Describe Middleware?
+
+A middleware function takes three parameters: req, res, next. There are three types of middleware, built-in, third party and custom. We can use middleware to write the functionalities that we need in our apps.
 
 - [ ] Describe a Resource?
 
+When designing a RESTful Web API, keep the following principles in mind:
+
+everything is a resource.
+each resource is accessible via a unique URI.
+resources can have multiple representations.
+communication is done over a stateless protocol (HTTP).
+management of resources is done via HTTP methods.
+
 - [ ] What can the API return to help clients know if a request was successful?
+   
+   json()
 
 - [ ] How can we partition our application into sub-applications?
+
+    We can use routers.
 
 ## Project Setup
 
